@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface ApigeeKvmResponse {
   encrypted: boolean;
@@ -26,8 +27,8 @@ export class ApigeeService {
   constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
-    const username = 'operacionesti@colsubsidio.com';
-    const password = '';
+    const username = 'monitoreoti@colsubsidio.com';
+    const password = environment.apigeePw;
     const credentials = btoa(`${username}:${password}`);
     return new HttpHeaders({
       Authorization: `Basic ${credentials}`
