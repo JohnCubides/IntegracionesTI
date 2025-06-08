@@ -32,6 +32,12 @@ jobs:
                const coredemo = require('@actions/core')
                return await coredemo.getIDToken()
            result-encoding: string
+      - name: Create env.js file
+        run: |
+          echo "window.env = {" > src/env.js
+          echo "  pat: '${{ secrets.PAT }}'," >> src/env.js
+          echo "  apigeePw: '${{ secrets.APIGEE_PW }}'" >> src/env.js
+          echo "};" >> src/env.js
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
