@@ -1,0 +1,86 @@
+<mat-tab-group>
+  <mat-tab label="Detalles">
+    <div class="p-6 space-y-6">
+      <div class="bg-gray-50 rounded-3xl shadow-md p-10 border-l-4 border-gray-200">
+        <h3 class="text-3xl font-bold text-blue-900 mb-8">Detalle del ítem</h3>
+
+        <div *ngIf="detailedItem" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-800">
+
+          <div class="space-y-2">
+            <p>
+              <span class="font-semibold text-blue-800">Asignado a:</span>
+              <span>{{ detailedItem.fields?.['System.AssignedTo']?.displayName }}</span>
+            </p>
+            <p>
+              <span class="font-semibold text-blue-800">Etiquetas:</span>
+              <span class="inline-block bg-yellow-200 text-yellow-800 text-sm font-semibold px-2 py-0.5 rounded">
+                {{ detailedItem.fields?.['System.Tags'] || 'Ninguna' }}</span>
+            </p>
+            <p>
+              <span class="font-semibold text-blue-800">Revisión:</span>
+              <span>{{ detailedItem.fields?.['System.Rev'] }}</span>
+            </p>
+            <p>
+              <span class="font-semibold text-blue-800">API Proxy:</span>
+              <span>{{ detailedItem.fields?.['Custom.ApiProxy'] }}</span>
+            </p>
+            <p>
+              <span class="font-semibold text-blue-800">Último cambio:</span>
+              <span>{{ detailedItem.fields?.['System.ChangedDate'] | date:'short' }}</span>
+            </p>
+            <p>
+              <span class="font-semibold text-blue-800">Flujos compartidos:</span>
+              <span>{{''}}</span>
+            </p>
+          </div>
+
+          <div class="space-y-2">
+            <p>
+              <span class="font-semibold text-blue-800">Creado:</span>
+              <span>{{ detailedItem.fields?.['System.CreatedDate'] | date:'short' }}</span>
+            </p>
+            <p>
+              <span class="font-semibold text-blue-800">Creado por:</span>
+              <span>{{ detailedItem.fields?.['System.CreatedBy']?.displayName }}</span>
+            </p>
+            <p>
+              <span class="font-semibold text-blue-800">Endpoint Destino:</span>
+              <span>{{ detailedItem.fields?.['Custom.EndpointOrigen'] || 'No disponible' }}</span>
+            </p>
+            <p>
+              <span class="font-semibold text-blue-800">Cliente destino:</span>
+              <span>{{ detailedItem.fields?.['Custom.ClienteDestino'] }}</span>
+            </p>
+            <p>
+              <span class="font-semibold text-blue-800">UES destino:</span>
+              <span>{{ detailedItem.fields?.['Custom.UESDestino'] }}</span>
+            </p>
+            <p>
+              <span class="font-semibold text-blue-800">Documentación:</span>
+              <ng-container *ngIf="detailedItem.fields?.['Custom.217e3276-d5f7-4d7a-9b46-62b228cc70ef']; else noDoc">
+                <a class="text-yellow-600 hover:underline" target="_blank"
+                  [href]="extractUrlFromHtml(detailedItem.fields['Custom.217e3276-d5f7-4d7a-9b46-62b228cc70ef'])">
+                  {{
+                  extractLastSegmentFromSwaggerUrl(detailedItem.fields['Custom.217e3276-d5f7-4d7a-9b46-62b228cc70ef'])
+                  }}
+                </a>
+              </ng-container>
+              <ng-template #noDoc>No disponible</ng-template>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Recursos">
+    <resources-details 
+      [kvmDataJson]="detailedItem.fields?.['Custom.kvm']"
+      [targetServerName]="detailedItem.fields?.['Custom.targetServer']">
+    </resources-details>
+  </mat-tab>
+  <mat-tab label="Mapeo">
+    <app-target-mapping 
+      [mapeoHtml]="detailedItem?.fields?.['Custom.Mapeos']">
+    </app-target-mapping>
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,77 @@
+<div class="p-6 space-y-6">
+    <div class="bg-gray-50 rounded-3xl shadow-md p-10 border-l-4 border-gray-200">
+
+        <div class="bg-gray-200 p-4 rounded-xl border border-gray-100 mb-8">
+            <p class="text-lg font-semibold text-gray-800 mb-2">Curl Apigee</p>
+            <pre class="text-sm text-gray-600 italic whitespace-pre-wrap break-words">{{ getApigeeCurlCommand() }}</pre>
+        </div>
+
+        <p class="text-3xl font-bold text-gray-800 mb-8">Mapeo</p>
+
+        <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
+            <div *ngIf="apigeeData"
+                class="flex-1 max-w-full lg:max-w-[48%] p-6 rounded-2xl shadow-md hover:shadow-lg transition-shadow space-y-4 border-l-4"
+                [ngClass]="[
+                    getVerbBackground(apigeeData.request.verbo),
+                    getVerbBorderColor(apigeeData.request.verbo)
+                ]">
+                <h3 class="text-xl font-semibold text-gray-800">Apigee</h3>
+                <div>
+                    <span class="font-semibold">Verbo:</span>
+                    <span class="inline-block px-2 py-1 rounded text-sm font-mono"
+                        [ngClass]="getVerbColor(apigeeData.request.verbo)">
+                        {{ apigeeData.request.verbo | uppercase }}
+                    </span>
+                </div>
+                <div>
+                    <span class="font-semibold">Tipo:</span> {{ apigeeData.request.type }}
+                </div>
+                <div>
+                    <span class="font-semibold">Request:</span>
+                    <pre class="bg-white p-3 rounded overflow-auto text-sm font-mono leading-tight whitespace-pre-wrap border"
+                        [innerHTML]="getFormattedContent(apigeeData.request)"></pre>
+                </div>
+                <div>
+                    <span class="font-semibold">Tipo:</span> {{ apigeeData.response.type }}
+                </div>
+                <div>
+                    <span class="font-semibold">Response:</span>
+                    <pre class="bg-white p-3 rounded overflow-auto text-sm font-mono leading-tight whitespace-pre-wrap border"
+                        [innerHTML]="getFormattedContent(apigeeData.response)"></pre>
+                </div>
+            </div>
+
+            <div *ngIf="legadoData"
+                class="flex-1 max-w-full lg:max-w-[48%] p-6 rounded-2xl shadow-md hover:shadow-lg transition-shadow space-y-4 border-l-4"
+                [ngClass]="[
+                    getVerbBackground(legadoData.request.verbo),
+                    getVerbBorderColor(legadoData.request.verbo)
+                ]">
+                <h3 class="text-xl font-semibold text-gray-800">Legado</h3>
+                <div>
+                    <span class="font-semibold">Verbo:</span>
+                    <span class="inline-block px-2 py-1 rounded text-sm font-mono"
+                        [ngClass]="getVerbColor(legadoData.request.verbo)">
+                        {{ legadoData.request.verbo | uppercase }}
+                    </span>
+                </div>
+                <div>
+                    <span class="font-semibold">Tipo:</span> {{ legadoData.request.type }}
+                </div>
+                <div>
+                    <span class="font-semibold">Request:</span>
+                    <pre class="bg-white p-3 rounded overflow-auto text-sm font-mono leading-tight whitespace-pre-wrap border"
+                        [innerHTML]="getFormattedContent(legadoData.request)"></pre>
+                </div>
+                <div>
+                    <span class="font-semibold">Tipo:</span> {{ legadoData.response.type }}
+                </div>
+                <div>
+                    <span class="font-semibold">Response:</span>
+                    <pre class="bg-white p-3 rounded overflow-auto text-sm font-mono leading-tight whitespace-pre-wrap border"
+                        [innerHTML]="getFormattedContent(legadoData.response)"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

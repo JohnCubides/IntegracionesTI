@@ -1,0 +1,64 @@
+<div class="flex h-screen bg-slate-50">
+  <app-sidebar class="flex-shrink-0"></app-sidebar>
+  <div class="flex-1 p-6 overflow-auto">
+    <app-header></app-header>
+
+    <div class="mt-6">
+      <h2 class="text-2xl font-semibold text-slate-800 mb-4">Busca ítems de trabajo</h2>
+
+      <input
+        type="text"
+        class="border rounded px-4 py-2 w-full mb-4"
+        placeholder="Buscar por título o palabra clave..."
+        [(ngModel)]="searchText"
+        (ngModelChange)="onSearchChange()"
+      />
+
+      <div *ngFor="let item of paginatedResults" class="mb-3">       
+        <div
+          class="bg-gray-50 p-4 rounded shadow cursor-pointer hover:bg-slate-100"
+          (click)="toggleItemDetails(item.fields?.['system.id'])"
+        >
+          <p><strong>ID:</strong> {{ item.fields?.['system.id'] || 'Sin ID' }}</p>
+          <p><strong>Tipo:</strong> {{ item.fields?.['system.workitemtype'] || 'Sin tipo' }}</p>
+          <p><strong>Título:</strong> {{ item.fields?.['system.title'] || 'Sin título' }}</p>
+          <p>
+            <span class="font-semibold text-gray-600">Estado:</span>
+            <span
+              class="inline-block text-sm font-semibold px-2 py-0.5 rounded"
+              [ngClass]="getEstadoClass(item.fields?.['system.state'])"
+            >
+              {{ item.fields?.['system.state'] || 'No disponible' }}
+            </span>
+          </p>
+          
+        </div>
+        <div *ngIf="openedItems.has(item.fields?.['system.id'])" class="ml-4 mt-2">
+          <app-item-detail [item]="item"></app-item-detail>
+        </div>
+      </div>
+      <div class="flex justify-between items-center mt-6 px-4">
+        <button
+          class="bg-gray-100 text-gray-700 px-4 py-2 rounded hover:bg-gray-200"
+          (click)="goToPreviousPage()"
+          *ngIf="currentPage > 1"
+        >
+          Anterior
+        </button>
+      
+        <p class="text-gray-600 text-sm">Página {{ currentPage }} de {{ totalPages }}</p>
+      
+        <button
+          class="bg-gray-100 text-gray-700 px-4 py-2 rounded hover:bg-gray-200"
+          (click)="goToNextPage()"
+          *ngIf="currentPage < totalPages"
+        >
+          Siguiente
+        </button>
+      </div>       
+      <div *ngIf="results.length === 0 && searchText.length > 2" class="text-gray-500">
+        <p>No se encontraron resultados para "{{ searchText }}".</p>
+      </div>
+    </div>
+  </div>
+</div>

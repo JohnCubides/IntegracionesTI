@@ -1,0 +1,64 @@
+<div class="p-6 space-y-6">
+  <div
+    class="bg-gray-50 rounded-3xl shadow-md p-10 border-l-4 border-gray-200"
+    *ngIf="kvmName"
+  >
+    <h3 class="text-2xl font-semibold mb-6 text-green-900">
+      {{ kvmName }}
+    </h3>
+
+    <p *ngIf="error" class="text-red-600 mb-6">{{ error }}</p>
+
+    <div class="overflow-x-auto mb-8">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-green-100">
+          <tr>
+            <th
+              class="px-6 py-3 text-left text-sm font-semibold text-green-700 uppercase tracking-wide"
+            >
+              Clave
+            </th>
+            <th
+              class="px-6 py-3 text-left text-sm font-semibold text-green-700 uppercase tracking-wide"
+            >
+              Valor
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-100">
+          <tr
+            *ngFor="let item of displayData; let i = index"
+            class="odd:bg-white even:bg-green-50 hover:bg-green-50 transition-colors"
+          >
+            <td class="px-6 py-4 text-sm text-gray-700">{{ item.key }}</td>
+            <td class="px-6 py-4 text-sm text-gray-700 font-medium">
+              {{ item.value }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="bg-green-50 p-6 rounded-2xl shadow-sm border border-gray-100">
+      <p class="text-xl font-bold text-green-900 mb-4">Target Server</p>
+      <ng-container *ngIf="targetServer; else errorBlock">
+        <p class="mb-2">
+          <span class="font-semibold text-green-700">Nombre:</span>
+          <span>{{ targetServer.name }}</span>
+        </p>
+        <p class="mb-2">
+          <span class="font-semibold text-green-700">Host:</span>
+          <span>{{ targetServer.host }}</span>
+        </p>
+        <p>
+          <span class="font-semibold text-green-700">Puerto:</span>
+          <span>{{ targetServer.port }}</span>
+        </p>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-template #errorBlock>
+    <p *ngIf="error" class="text-red-600 font-semibold">{{ error }}</p>
+  </ng-template>
+</div>
